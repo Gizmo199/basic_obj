@@ -45,7 +45,7 @@
 		rotation = new vec3(0);
 		scale	 = new vec3(32, 32, -32);
 		
-		// Play with the albedo color
+		// Set some parameters for altering material 0
 		with ( material[0] )
 		{
 			texchg	= sprite_get_texture(sp_texture, 0);	// Set our 'change' texture
