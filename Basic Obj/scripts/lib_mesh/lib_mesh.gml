@@ -9,7 +9,7 @@ Render.format = vertex_format_end();
 Render.matrix_default = matrix_build_identity();
 
 // .obj file parse
-function obj_import(fn,order)
+function obj_import(fn,format)
 {
 	///@func obj_import(filename, import_format)
 	// returns : ds_map populated with datameshes
@@ -80,15 +80,15 @@ function obj_import(fn,order)
 							); break;
 							
 			case "v"		: ds_list_add( vertex, new vec3(
-								real(t[abs(order[0])])*sign(order[0]),
-								real(t[abs(order[1])])*sign(order[1]), 
-								real(t[abs(order[2])])*sign(order[2])) 
+								real(t[abs(format[0])])*sign(format[0]),
+								real(t[abs(format[1])])*sign(format[1]), 
+								real(t[abs(format[2])])*sign(format[2])) 
 							);  break;
 							
 			case "vn"		: ds_list_add( normal, new vec3(
-								real(t[abs(order[0])])*sign(order[0]),
-								real(t[abs(order[1])])*sign(order[1]), 
-								real(t[abs(order[2])])*sign(order[2])) 
+								real(t[abs(format[0])])*sign(format[0]),
+								real(t[abs(format[1])])*sign(format[1]), 
+								real(t[abs(format[2])])*sign(format[2])) 
 							);  break;
 										
 			case "usemtl"	: 
