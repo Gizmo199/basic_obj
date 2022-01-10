@@ -322,7 +322,7 @@ function mesh_struct() constructor
 		{
 			var b = bounds[i];
 			
-			material[i]. set();
+			material[i]. apply();
 			material[i]. set_bounds(b.minimum, b.maximum);
 			
 				vertex_submit(

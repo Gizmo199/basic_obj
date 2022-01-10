@@ -33,9 +33,9 @@ function material3d(n) constructor
 		shader_set_vec3("bounds_max", v2);
 	}
 	
-	static set = function()
+	static apply = function()
 	{
-		///@func set()
+		///@func apply()
 		shader_set(shader);
 		shader_set_vec2("texrepeat",	texrepeat);
 		shader_set_vec2("texoffset",	texoffset);
