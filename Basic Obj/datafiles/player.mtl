@@ -1,0 +1,12 @@
+# Created by Kenney (www.kenney.nl)
+
+newmtl metalOrange(Clone)
+Kd 0.5929999 0 1
+
+newmtl dark(Clone)
+Kd 0 0.8969998 1
+
+newmtl stone(Clone)
+Kd 0 0.2132699 0.4068966
+map_Kd Textures/stone(Clone).png
+
