@@ -27,7 +27,7 @@ void main()
 	// Diffuse Shading
 	base_col.rgb *= diffuse + ( max(dot(v_vNormal, normalize(sun_dir)), 0.) );
 	
-	// Specular & Metallic highlights
+	// Specular & Gloss highlights
 	base_col.rgb += min(specular, 1.) * ( pow(max(dot(normalize(reflect(v_vEye, v_vNormal)), normalize(sun_dir)), 0.), max(glossiness * 50., 1.)) );
 	
 	// Rim lighting
