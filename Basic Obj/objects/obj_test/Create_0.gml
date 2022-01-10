@@ -9,7 +9,6 @@
 	far				= 32000;		// Far clipping plane
 	sensitivity		= .1;			// How sensitive our mouse look is
 
-
 	view_enabled	= true;
 	view_visible[view] = true;
 					
