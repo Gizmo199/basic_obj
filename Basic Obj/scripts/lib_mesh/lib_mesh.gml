@@ -358,7 +358,7 @@ function mesh_struct() constructor
 function mesh_import(f)
 {
 	///@func mesh_import(filename, *import_format)
-	var dm, p;
+	var dm, p, m;
 	p = [ f, [1,2,3] ];
 	
 	for ( var i=0; i<argument_count; i++ )
@@ -366,9 +366,9 @@ function mesh_import(f)
 		p[i] = argument[i];	
 	}
 
-	dm = obj_import(p[0], p[1]);
-	var m	= new mesh_struct();
-	m. load(dm);
+	dm	= obj_import(p[0], p[1]);
+	m	= new mesh_struct();
+	with ( m ) load(dm);
 	
 	datamesh_map_free(dm);
 	return m;
