@@ -7,16 +7,16 @@ if ( target )
 
 	if ( mouse_check_button(mb_right) )
 	{
-		if ( !mouse_check_button_pressed(mb_right) )
-		{
-			var m = new vec2(window_mouse_get_x(), window_mouse_get_y());
-			var c = new vec2(window_get_width()*.5, window_get_height()*.5);
+		var m = new vec2(window_mouse_get_x(), window_mouse_get_y());
+		var c = new vec2(window_get_width()*.5, window_get_height()*.5);
 		
+		if ( !mouse_check_button_pressed(mb_right) )
+		{		
 			rotation.z -= ( m.x - c.x ) * sensitivity;
 			rotation.y -= ( ( m.y - c.y ) * sensitivity ) * ( first_person ? -1 : 1 );
-		
-			window_mouse_set(c.x, c.y);
 		}
+		
+		window_mouse_set(c.x, c.y);
 	}
 	rotation.y = clamp(rotation.y, -89, 89);
 	forward = rotation.z - 90;
