@@ -114,7 +114,8 @@ function obj_import(fn,order)
 							var vv = ds_list_find_value(v, real(info[0]) - 1 );
 							var nn = ds_list_find_value(n, real(info[2]) - 1 );
 							var tt = ds_list_find_value(c, real(info[1]) - 1 );
-																							
+							
+							// Build quads if needed (useful for blender)
 							if ( a > 3 )
 							{
 								var v1,v2,n1,n2,t1,t2,i1,i2;
