@@ -310,8 +310,8 @@ function mesh_struct() constructor
 	{
 		for ( var i=0; i<mesh_total; i++ )
 		{	
-			vertex_delete_buffer(vbuff[mesh_total]);
-			buffer_delete(buff[mesh_total]);
+			vertex_delete_buffer(vbuff[i]);
+			buffer_delete(buff[i]);
 		}
 	}
 	
