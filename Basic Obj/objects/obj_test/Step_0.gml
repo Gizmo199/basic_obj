@@ -25,7 +25,7 @@ with ( model )
 		texrepeat	= k ? new vec2(4) : new vec2(1);	// repeat the texture if swapped
 		
 		// make rim lighting glow
-		rim = abs(dsin(current_time/8));
+		rim = abs(dsin(current_time/8)) * .5;
 		
 		// Offset the textures y coordinate
 		texoffset.y -= .01;

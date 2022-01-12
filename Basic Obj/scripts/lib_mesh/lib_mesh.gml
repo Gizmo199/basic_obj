@@ -9,9 +9,9 @@ Render.format = vertex_format_end();
 Render.matrix_default = matrix_build_identity();
 
 // .obj file parse
-function obj_import(fn,format)
+function obj_import(fn,scale,format)
 {
-	///@func obj_import(filename, import_format)
+	///@func obj_import(filename, scale_vec3, import_format)
 	// returns : ds_map populated with datameshes
 	show_debug_message("[Loading...] "+fn);
 	var fd = parse_string(fn, "/");
@@ -81,15 +81,15 @@ function obj_import(fn,format)
 							
 			case "v"		: ds_list_add( vertex, new vec3(
 								real(t[abs(format[0])])*sign(format[0]),
-								real(t[abs(format[1])])*sign(format[1]), 
-								real(t[abs(format[2])])*sign(format[2])) 
+								real(t[abs(format[1])])*sign(format[1]),
+								real(t[abs(format[2])])*sign(format[2])). multiply(scale) 
 							);  break;
 							
 			case "vn"		: ds_list_add( normal, new vec3(
 								real(t[abs(format[0])])*sign(format[0]),
 								real(t[abs(format[1])])*sign(format[1]), 
-								real(t[abs(format[2])])*sign(format[2])) 
-							);  break;
+								real(t[abs(format[2])])*sign(format[2])). normalize()
+							)  break;
 										
 			case "usemtl"	: 
 				mtl = t[1];
@@ -357,16 +357,16 @@ function mesh_struct() constructor
 }
 function mesh_import(f)
 {
-	///@func mesh_import(filename, *import_format)
+	///@func mesh_import(filename, *scale_vec3, *import_format)
 	var dm, p, m;
-	p = [ f, [1,2,3] ];
+	p = [ f, new vec3(1), [1,2,3] ];
 	
 	for ( var i=0; i<argument_count; i++ )
 	{
 		p[i] = argument[i];	
 	}
 
-	dm	= obj_import(p[0], p[1]);
+	dm	= obj_import(p[0], p[1], p[2]);
 	m	= new mesh_struct();
 	with ( m ) load(dm);
 	

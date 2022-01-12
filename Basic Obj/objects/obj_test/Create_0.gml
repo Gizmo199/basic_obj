@@ -37,12 +37,13 @@
 #endregion
 #region Model
 	
-	model = mesh_import("player.obj");
+	var import_scale = new vec3(32, 32, -32);
+	model = mesh_import( "player.obj", import_scale );
 	with ( model )
 	{
 		position = new vec3(other.x, other.y + 64, 0);
 		rotation = new vec3(0);
-		scale	 = new vec3(32, 32, -32);
+		scale	 = new vec3(1);
 		
 		// Set some parameters for altering material 0
 		with ( material[0] )
