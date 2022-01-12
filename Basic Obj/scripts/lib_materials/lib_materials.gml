@@ -14,7 +14,7 @@ function material3d(n) constructor
 	name		= n;
 	shader		= shd_mtl_default;
 	
-	sun_dir		= new vec3(0, .5, -1);
+	sun_dir		= new vec3(0, .5, 1);
 	
 	texture		= -1;
 	texoffset   = new vec2(0);
