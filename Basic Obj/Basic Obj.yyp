@@ -42,8 +42,11 @@
   ],
   "IncludedFiles": [
     {"CopyToMask":-1,"filePath":"datafiles/Textures","resourceVersion":"1.0","name":"stone(Clone).png","resourceType":"GMIncludedFile",},
-    {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"player.obj","resourceType":"GMIncludedFile",},
-    {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"player.mtl","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/Suzanne","resourceVersion":"1.0","name":"Suzanne.obj","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/Suzanne","resourceVersion":"1.0","name":"Suzanne.mtl","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/Player","resourceVersion":"1.0","name":"player.obj","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/Player/Textures","resourceVersion":"1.0","name":"stone(Clone).png","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/Player","resourceVersion":"1.0","name":"player.mtl","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
     "IDEVersion": "2.3.7.606",

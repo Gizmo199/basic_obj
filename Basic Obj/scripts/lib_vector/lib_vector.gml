@@ -431,22 +431,27 @@ function vec3() constructor
 			
 			static vec_abs = function()
 			{
+				///@func vec_abs()
 				return new vec3(abs(x),abs(y),abs(z));
 			}
 			static vec_floor = function()
 			{
+				///@func vec_floor()
 				return new vec3(floor(x),floor(y),floor(z));
 			}
 			static vec_ceil = function()
 			{
+				///@func vec_ceil()
 				return new vec3(ceil(x),ceil(y),ceil(z));	
 			}
 			static vec_sign = function()
 			{
+				///@func vec_sign()
 				return new vec3(sign(x),sign(y),sign(z));	
 			}
 			static vec_round = function()
 			{
+				///@func vec_round()
 				return new vec3(round(x),round(y),round(z));	
 			}
 			

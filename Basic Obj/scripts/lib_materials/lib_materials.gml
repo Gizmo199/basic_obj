@@ -4,13 +4,7 @@ Material.library = ds_map_create();
 
 function material3d(n) constructor
 {
-	///@func material3d(material_name)
-	if ( !is_undefined(Material.library[? n]) )
-	{
-		show_debug_message("Material: '"+n+"' already existed! Material '"+n+"' was overwritten!");
-	}
-	Material.library[? n] = self;
-	
+	///@func material3d(material_name)	
 	name		= n;
 	shader		= shd_mtl_default;
 	
@@ -24,7 +18,6 @@ function material3d(n) constructor
 	diffuse		= .5;
 	specular	= .5;
 	gloss		= .5;
-	rim			= .1;
 	
 	static set_bounds = function(v1,v2)
 	{
@@ -45,7 +38,6 @@ function material3d(n) constructor
 		shader_set_float("diffuse",		diffuse);
 		shader_set_float("specular",	specular);
 		shader_set_float("glossiness",	gloss);
-		shader_set_float("rim",			rim);
 	}
 	
 	static reset = function()

@@ -14,7 +14,6 @@ uniform vec3	albedo;
 uniform float	specular;
 uniform float	glossiness;
 uniform float	diffuse;
-uniform float	rim;
 
 void main()
 {
@@ -29,9 +28,6 @@ void main()
 	
 	// Specular & Gloss highlights
 	base_col.rgb += min(specular, 1.) * ( pow(max(dot(normalize(reflect(v_vEye, v_vNormal)), normalize(sun_dir)), 0.), max(glossiness * 50., 1.)) );
-	
-	// Rim lighting
-	base_col.rgb += rim * ( vec3(pow(1. + v_vRim, 2.)) );
 	
 	// Outpute color
 	gl_FragColor = base_col;

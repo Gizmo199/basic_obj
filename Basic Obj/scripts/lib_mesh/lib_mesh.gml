@@ -273,8 +273,10 @@ function mesh_struct() constructor
 	vbuff		= [];
 	material	= [];
 	bounds		= [];
+	verts		= [];
 	mesh_total	= 0;
 	primtype	= pr_trianglelist;
+	norm_format = new vec3(1);
 			
 	static load = function(d)
 	{
@@ -283,6 +285,9 @@ function mesh_struct() constructor
 		{	
 			// Get datamesh data
 			var mesh = d[? m];
+			
+			// Save the number of vertices
+			verts[mesh_total]	= ds_list_size(mesh.verts);
 			
 			// Buffers
 			buff[mesh_total]	= mesh. build();
@@ -296,9 +301,19 @@ function mesh_struct() constructor
 			}
 			
 			// Load materials
-			material[mesh_total]				= new material3d(mesh. mtlname);
-			material[mesh_total].albedo			= new vec3(mesh.color);
-			material[mesh_total].texture		= mesh.texture == -1 ? -1 : sprite_get_texture(mesh. texture, 0);
+			if ( is_undefined(Material.library[? mesh.mtlname]) )
+			{
+				material[mesh_total]			= new material3d(mesh.mtlname);
+				material[mesh_total].albedo		= new vec3(mesh.color);
+				material[mesh_total].texture	= mesh.texture;
+				
+				Material.library[? mesh.mtlname] = material[mesh_total];
+			}
+			else
+			{
+				material[mesh_total] = Material.library[? mesh.mtlname];	
+			}
+			
 			
 			// Finalize
 			vertex_freeze(vbuff[mesh_total]);
@@ -325,12 +340,17 @@ function mesh_struct() constructor
 			material[i]. apply();
 			material[i]. set_bounds(b.minimum, b.maximum);
 			
-				vertex_submit(
-					vbuff[i], 
-					primtype, 
-					material[i].texture
-				);
-				
+			var t = material[i].texture;
+			if ( t != -1 )
+			{
+				if ( typeof(t) != "ptr" )
+				{
+					t = sprite_get_texture(material[i].texture, 0);
+					material[i].texture = t;
+				}
+			}
+			
+			vertex_submit( vbuff[i], primtype, material[i].texture );
 			material[i]. reset();
 		}
 	}
@@ -372,4 +392,125 @@ function mesh_import(f)
 	
 	datamesh_map_free(dm);
 	return m;
+}
+
+function batch_mesh() constructor
+{
+	///@func batch_mesh()
+	mtl_lib		= ds_map_create();
+	show_debug_message("Batch mesh sucessfully created!");
+
+	static add = function(m)
+	{
+		///@func add(mesh_struct, *pos_vec3, *rot_vec3, *scl_vec3)
+		var m3 = [ new vec3(0), new vec3(0), new vec3(1) ];
+		for ( var i = 1; i<argument_count; i++ )
+		{
+			m3[i-1] = argument[i];
+		}
+		
+		var i = -1;
+		while ( ++i < array_length(m.material) )
+		{
+			var mtl = m.material[i];
+			var msh = 
+			{
+				buff : m.buff[i],
+				verts: m.verts[i],
+				matx : m3,
+				matl : m.material[i],
+				fmat : m.norm_format
+			}
+			
+			if ( is_undefined(mtl_lib[? mtl.name]) )
+			{
+				mtl_lib[? mtl.name] = ds_list_create();	
+			}
+			ds_list_add(mtl_lib[? mtl.name], msh);
+		}
+		show_debug_message("+	Mesh added to batch mesh!");
+	}
+	
+	static build = function()
+	{
+		///@func build();
+		show_debug_message("[Building...] Batch mesh");
+
+		var dmap = ds_map_create();
+		for ( var i = ds_map_find_first(mtl_lib); !is_undefined(i); i = ds_map_find_next(mtl_lib, i) )
+		{
+			var mtl			= mtl_lib[? i];
+			
+			dmap[? mtl]	= new datamesh();
+			var dmesh = dmap[? mtl];
+			
+			var j = -1;
+			while ( ++j < ds_list_size(mtl) )
+			{				
+				var msh		= mtl[| j].buff;
+				var matx	= mtl[| j].matx;
+				var matl	= mtl[| j].matl;
+				var mnf		= mtl[| j].fmat;
+				var size	= buffer_get_size(msh);
+				var sbyte	= size / mtl[| j].verts;
+				
+				buffer_seek(msh, buffer_seek_start, 0);
+				for ( var b = 0; b<size; b+=sbyte )
+				{
+					var v1 = new vec3(
+						buffer_read(msh, buffer_f32),
+						buffer_read(msh, buffer_f32),
+						buffer_read(msh, buffer_f32)
+					);
+					var n1 = new vec3(
+						buffer_read(msh, buffer_f32),
+						buffer_read(msh, buffer_f32),
+						buffer_read(msh, buffer_f32)
+					);
+					var c1 = new vec3(
+						buffer_read(msh, buffer_u8),
+						buffer_read(msh, buffer_u8),
+						buffer_read(msh, buffer_u8)
+					);
+					buffer_read(msh, buffer_u8);
+				
+					var t1 = new vec2(
+						buffer_read(msh, buffer_f32),
+						buffer_read(msh, buffer_f32)
+					);
+					
+					var vmat = mat3(matx[0], matx[1], matx[2]);
+					var tran = matrix_transform_vertex(vmat, v1.x, v1.y, v1.z);
+					var v2 = new vec3(tran[0], tran[1], tran[2]);
+					
+					var nmat = mat3( new vec3(0), matx[1], new vec3(1) );
+					var tran = matrix_transform_vertex(nmat, n1.x, n1.y, n1.z);
+					
+					var f  = mnf. vec_sign();
+					var n2 = new vec3(tran[0]*f.x, tran[1]*f.y, tran[2]*f.z);
+									
+					with ( dmesh )
+					{
+						ds_list_add(verts, v2);
+						ds_list_add(norms, n2);
+						ds_list_add(coord, t1);
+					
+						color = new vec3(c1);
+						mtlname = matl.name;
+						texture = matl.texture;
+					
+						calculate_bounds(v2);
+					}
+				}
+			}
+			show_debug_message(".	Mesh with material '"+string(matl.name)+"' built to batch mesh");
+		}
+		
+		ds_map_destroy(mtl_lib);
+		
+		var m = new mesh_struct();
+		m. load(dmap);
+		datamesh_map_free(dmap);
+		return m;
+	}
 }
