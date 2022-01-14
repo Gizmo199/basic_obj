@@ -47,6 +47,7 @@ function material3d(n) constructor
 	{
 		///@func reset()
 		shader_reset();
+		gpu_set_cullmode(cull_noculling);
 	}
 	
 	static clone = function(n)
