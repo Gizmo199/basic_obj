@@ -69,6 +69,7 @@
 		// You can also call material[0] = new material3d("suzanne_material");
 		with ( material[0] )
 		{
+			cullmode	= cull_counterclockwise;	
 			texture		= sprite_get_texture(sp_texture, 0);
 			texrepeat	= new vec2(10);
 		}

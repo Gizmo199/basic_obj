@@ -7,6 +7,7 @@ function material3d(n) constructor
 	///@func material3d(material_name)	
 	name		= n;
 	shader		= shd_mtl_default;
+	cullmode	= cull_clockwise;
 	
 	sun_dir		= new vec3(0, .5, 1);
 	
@@ -38,6 +39,8 @@ function material3d(n) constructor
 		shader_set_float("diffuse",		diffuse);
 		shader_set_float("specular",	specular);
 		shader_set_float("glossiness",	gloss);
+		
+		gpu_set_cullmode(cullmode);
 	}
 	
 	static reset = function()
@@ -55,6 +58,7 @@ function material3d(n) constructor
 			name		= n;
 			shader		= other.shader;
 			sun_dir		= other.sun_dir;
+			cullmode	= other.cullmode;
 			
 			texture		= other.texture;
 			texrepeat	= other.texrepeat;

@@ -8,6 +8,7 @@ varying vec2	v_vTexcoord;
 varying vec4	v_vColour;
 varying vec3	v_vNormal;
 varying vec3	v_vEye;
+varying float	v_vDis;
 varying float	v_vRim;
 
 void main()
@@ -22,6 +23,7 @@ void main()
 	vec3 c = -(gm_Matrices[MATRIX_VIEW][3] * gm_Matrices[MATRIX_VIEW]).xyz;
 	vec3 v =  (gm_Matrices[MATRIX_WORLD] * object_space_pos).xyz;
 	v_vEye = v - c;
+	v_vDis = distance(c, v);
 	
 	// Color, texcoord, normal, & position
 	v_vColour = in_Colour;    

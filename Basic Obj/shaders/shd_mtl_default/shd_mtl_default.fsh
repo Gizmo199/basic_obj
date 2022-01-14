@@ -3,6 +3,7 @@ varying vec2	v_vTexcoord;
 varying vec4	v_vColour;
 varying vec3	v_vNormal;
 varying vec3	v_vEye;
+varying float	v_vDis;
 varying float	v_vRim;
 
 uniform vec3	bounds_min;
